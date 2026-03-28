@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News Browser</title>
+    <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+<header class="site-header">
+    <div class="container">
+        <h1>📰 News Browser</h1>
+        <p>Search and browse news articles</p>
+    </div>
+</header>
+
+<main class="container">
+    <!-- SEARCH + FILTERS -->
+    <section class="search-panel">
+        <form id="searchForm" class="search-form">
+            <div class="form-row">
+                <input
+                        type="text"
+                        id="query"
+                        name="query"
+                        placeholder="Search news..."
+                />
+
+                <select id="section" name="section">
+                    <option value="">All sections</option>
+                    <option value="technology">Technology</option>
+                    <option value="sport">Sport</option>
+                    <option value="business">Business</option>
+                    <option value="culture">Culture</option>
+                    <option value="science">Science</option>
+                    <option value="world">World</option>
+                </select>
+
+                <select id="orderBy" name="orderBy">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="relevance">Relevance</option>
+                </select>
+
+                <select id="pageSize" name="pageSize">
+                    <option value="10">10</option>
+                    <option value="20" selected>20</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div>
+                    <label for="fromDate">From</label>
+                    <input type="date" id="fromDate" name="fromDate" />
+                </div>
+
+                <div>
+                    <label for="toDate">To</label>
+                    <input type="date" id="toDate" name="toDate" />
+                </div>
+
+                <button type="submit">Search</button>
+                <button type="button" id="saveSearchBtn">Save search</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- STATUS -->
+    <section id="statusSection" class="status-section">
+        <p id="statusMessage">Start by searching for news.</p>
+        <button id="retryBtn" class="hidden" type="button">Retry</button>
+    </section>
+
+    <!-- SAVED SEARCHES -->
+    <section class="saved-searches-panel">
+        <h2>Saved Searches</h2>
+        <div id="savedSearchesList" class="tag-list"></div>
+    </section>
+
+    <!-- BOOKMARKS -->
+    <section class="bookmarks-panel">
+        <h2>Bookmarks</h2>
+        <div id="bookmarksList" class="bookmarks-list"></div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="results-panel">
+        <h2>Results</h2>
+        <div id="articlesContainer" class="articles-grid"></div>
+    </section>
+
+    <!-- INFINITE SCROLL SENTINEL -->
+    <div id="scrollSentinel"></div>
+</main>
+
+<!-- MODAL -->
+<div id="articleModal" class="modal hidden">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<script type="module" src="/dist/script.min.js"></script>
+</body>
+</html>
