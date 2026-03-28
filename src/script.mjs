@@ -14,16 +14,15 @@ const modalCloseBtn = document.getElementById('modalCloseBtn');
 searchForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const sectionSelect = document.getElementById('section').value;
-
-
     const query = queryInput.value.trim();
+    const section = document.getElementById('section').value;
+    console.log(section);
 
-    if (!query) {
-        return alert('Enter a search query!');
+    if (!query && !section) {
+        return alert('Enter a new search!');
     }
 
-    const response = await getArticles(query);
+    const response = await getArticles({query, section});
 
     const articles = response.data.response.results;
     state.articles = articles;
