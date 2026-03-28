@@ -16,13 +16,15 @@ searchForm.addEventListener('submit', async (event) => {
 
     const query = queryInput.value.trim();
     const section = document.getElementById('section').value;
-    console.log(section);
+    const fromDate = document.getElementById('fromDate').value;
+    const toDate = document.getElementById('toDate').value;
+    const orderBy = document.getElementById('orderBy').value;
 
-    if (!query && !section) {
+    if (!query && !section && !fromDate && !toDate && !orderBy) {
         return alert('Enter a new search!');
     }
 
-    const response = await getArticles({query, section});
+    const response = await getArticles(query, section, fromDate, toDate, orderBy);
 
     const articles = response.data.response.results;
     state.articles = articles;

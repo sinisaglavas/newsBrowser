@@ -3,26 +3,27 @@ import axios from 'axios';
 
 const API_KEY = process.env.API_KEY;
 const API_URL = process.env.API_URL;
-//
-// const params = {
-//     'api-key': API_KEY,
-//     q: query || '',
-//     section: section || '',
-//     'from-date': fromDate || '',
-//     'to-date': toDate || '',
-//     'order-by': orderBy || 'newest',
-// };
 
-export async function getArticles({query, section}) {
+export async function getArticles(query, section, fromDate, toDate, orderBy) {
    try {
-       return await axios.get(API_URL, {
-           params: {
-               'api-key': API_KEY,
-               q: query || '',
-               section: section || '',
-               'show-fields': 'thumbnail,trailText,byline'
-           },
-       })
+       const params = {
+           'api-key': API_KEY,
+           'show-fields': 'thumbnail,trailText,byline'
+       };
+
+       if (query) params.q = query;
+       if (section) params.section = section;
+       if (fromDate) params['from-date'] = fromDate;
+       if (toDate) params['to-date'] = toDate;
+       if (orderBy) {
+           if (orderBy === 'relevance' && !query) {
+               params['order-by'] = 'newest';
+           } else {
+               params['order-by'] = orderBy;
+           }
+       }
+
+       return await axios.get(API_URL, { params })
    } catch (exception) {
        return alert('Something went wrong with fetching search data! Please try again later.')
    }
