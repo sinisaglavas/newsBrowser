@@ -4,7 +4,7 @@ import axios from 'axios';
 const API_KEY = process.env.API_KEY;
 const API_URL = process.env.API_URL;
 
-export async function getArticles(query, section, fromDate, toDate, orderBy) {
+export async function getArticles(query, section, fromDate, toDate, orderBy, pageSize) {
    try {
        const params = {
            'api-key': API_KEY,
@@ -22,6 +22,7 @@ export async function getArticles(query, section, fromDate, toDate, orderBy) {
                params['order-by'] = orderBy;
            }
        }
+       if (pageSize) params['page-size'] = pageSize;
 
        return await axios.get(API_URL, { params })
    } catch (exception) {

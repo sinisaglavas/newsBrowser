@@ -8,8 +8,5 @@ export const state = {
     pageSize: 20,
     page: 1,
     totalPages: 1,
-    isLoading: false,
-    hasMore: true,
     articles: [],
-    lastRequestParams: null
 };

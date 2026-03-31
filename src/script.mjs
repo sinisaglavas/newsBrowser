@@ -32,12 +32,13 @@ searchForm.addEventListener('submit', async (event) => {
     const fromDate = document.getElementById('fromDate').value;
     const toDate = document.getElementById('toDate').value;
     const orderBy = document.getElementById('orderBy').value;
+    const pageSize = document.getElementById('pageSize').value;
 
     if (!query && !section && !fromDate && !toDate && !orderBy) {
         return alert('Enter a new search!');
     }
 
-    const response = await getArticles(query, section, fromDate, toDate, orderBy);
+    const response = await getArticles(query, section, fromDate, toDate, orderBy, pageSize);
 
     const articles = response.data.response.results;
     state.articles = articles;
@@ -99,7 +100,7 @@ saveSearchBtn.addEventListener('click', () => {
         section,
         fromDate,
         toDate,
-        orderBy
+        orderBy,
     }
 
     const savedSearches = getSavedSearches(); // initial first (empty ?)array
@@ -134,8 +135,9 @@ savedSearchesList.addEventListener('click', async (event) => {
     const fromDate = requestedSearch.fromDate;
     const toDate = requestedSearch.toDate;
     const orderBy = requestedSearch.orderBy;
+    const pageSize = document.getElementById('pageSize').value;
 
-    const response = await getArticles(query, section, fromDate, toDate, orderBy);
+    const response = await getArticles(query, section, fromDate, toDate, orderBy, pageSize);
 
     const articles = response.data.response.results;
     state.articles = articles;
