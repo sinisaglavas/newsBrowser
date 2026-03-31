@@ -10,7 +10,7 @@ body {
 }
 
 .container {
-    width: min(1100px, 90%);
+    width: min(1200px, 90%);
     margin: 0 auto;
 }
 
@@ -31,7 +31,10 @@ body {
     padding: 16px;
     margin-bottom: 20px;
 }
-
+.search-panel {
+    display: flex;
+    gap: 12px;
+}
 .search-form .form-row {
     display: flex;
     gap: 12px;

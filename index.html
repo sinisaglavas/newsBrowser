@@ -17,53 +17,55 @@
 <main class="container">
     <!-- SEARCH + FILTERS -->
     <section class="search-panel">
-        <form id="searchForm" class="search-form">
-            <div class="form-row">
-                <input
-                        type="text"
-                        id="query"
-                        name="query"
-                        placeholder="Search news..."
-                />
+        <div>
+            <form id="searchForm" class="search-form">
+                <div class="form-row">
+                    <input
+                            type="text"
+                            id="query"
+                            name="query"
+                            placeholder="Search news..."
+                    />
 
-                <select id="section" name="section">
-                    <option value="">All sections</option>
-                    <option value="technology">Technology</option>
-                    <option value="sport">Sport</option>
-                    <option value="business">Business</option>
-                    <option value="culture">Culture</option>
-                    <option value="science">Science</option>
-                    <option value="world">World</option>
-                </select>
+                    <select id="section" name="section">
+                        <option value="">All sections</option>
+                        <option value="technology">Technology</option>
+                        <option value="sport">Sport</option>
+                        <option value="business">Business</option>
+                        <option value="culture">Culture</option>
+                        <option value="science">Science</option>
+                        <option value="world">World</option>
+                    </select>
 
-                <select id="orderBy" name="orderBy">
-                    <option value="newest">Newest</option>
-                    <option value="oldest">Oldest</option>
-                    <option value="relevance">Relevance</option>
-                </select>
+                    <select id="orderBy" name="orderBy">
+                        <option value="" selected>Order By</option>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="relevance">Relevance</option>
+                    </select>
 
-                <select id="pageSize" name="pageSize">
-                    <option value="10">10</option>
-                    <option value="20" selected>20</option>
-                    <option value="50">50</option>
-                </select>
-            </div>
+                    <select id="pageSize" name="pageSize">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                    </select>
 
-            <div class="form-row">
-                <div>
-                    <label for="fromDate">From</label>
-                    <input type="date" id="fromDate" name="fromDate" />
+                    <div>
+                        <label for="fromDate">From</label>
+                        <input type="date" id="fromDate" name="fromDate" />
+                    </div>
+
+                    <div>
+                        <label for="toDate">To</label>
+                        <input type="date" id="toDate" name="toDate" />
+                    </div>
+                    <button type="submit">Search</button>
                 </div>
-
-                <div>
-                    <label for="toDate">To</label>
-                    <input type="date" id="toDate" name="toDate" />
-                </div>
-
-                <button type="submit">Search</button>
-                <button type="button" id="saveSearchBtn">Save search</button>
-            </div>
-        </form>
+            </form>
+        </div>
+        <div>
+            <button type="button" id="saveSearchBtn">Save search</button>
+        </div>
     </section>
 
     <!-- STATUS -->

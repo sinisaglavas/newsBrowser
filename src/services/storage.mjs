@@ -16,3 +16,9 @@ export function getSavedSearches() {
 export function saveSearches(searches) {
     localStorage.setItem(SAVE_SEARCHES_KEY, JSON.stringify(searches));
 }
+
+export function deleteSavedSearch(index) {
+    const savedSearches = getSavedSearches();
+    savedSearches.splice(index, 1);
+    saveSearches(savedSearches);
+}
