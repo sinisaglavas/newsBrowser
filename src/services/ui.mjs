@@ -1,8 +1,10 @@
 
 import { getFormattedDate } from "../helpers/dateHelper.mjs";
+import {isBookmarked} from "./storage.mjs";
 
 export function renderArticles(article) {
     const container = document.getElementById('articlesContainer');
+    const bookmarked = isBookmarked(article.id);
 
     container.innerHTML +=
         `<article class="article-card" data-id="${article.id}">
@@ -11,7 +13,9 @@ export function renderArticles(article) {
             <h3>${article.webTitle || ''}</h3>
             <p>${article.fields?.trailText || 'No description available.'}</p>
             <button class="details-btn" data-id="${article.id}">Details</button>
-            <button class="bookmark-btn" data-id="${article.id}">Bookmark</button>
+            <button class="bookmark-btn" data-id="${article.id}">
+            ${bookmarked ? 'Remove Bookmark' : 'Bookmark'}
+            </button>
         </article>`
 }
 
@@ -35,6 +39,37 @@ export function renderSavedSearches(container, savedSearches) {
             <button class="delete-saved-search-btn" data-index="${index}">
                 Delete
             </button>
+        </div>
+    `).join('');
+}
+
+export function renderBookmarks(bookmarks) {
+    const container = document.getElementById('bookmarksList');
+
+    if (!bookmarks.length) {
+        container.innerHTML = '<p>No bookmarks yet.</p>';
+        return;
+    }
+
+    container.innerHTML = bookmarks.map(item => `
+        <div class="bookmark-item">
+            <img src="${item.thumbnail || ''}" alt="${item.webTitle}">
+            <div class="bookmark-content">
+                <h4>${item.webTitle}</h4>
+                <p>
+                    ${item.webPublicationDate ? new Date(item.webPublicationDate).toLocaleDateString() : ''}
+                    ${item.byline ? ' | ' + item.byline : ''}
+                </p>
+                <button>
+                <a href="${item.webUrl}" target="_blank" rel="noopener noreferrer" class="open-article-btn">
+                    Open article
+                </a>
+                </button>
+                
+                <button class="remove-bookmark-btn" data-id="${item.id}">
+                    Remove
+                </button>
+            </div>
         </div>
     `).join('');
 }

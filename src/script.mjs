@@ -1,22 +1,28 @@
 
 import {getArticles} from "./services/guardianApi.mjs";
-import {renderArticles, renderSavedSearches} from "./services/ui.mjs";
+import {renderArticles, renderBookmarks, renderSavedSearches} from "./services/ui.mjs";
 import {state} from "./services/state.mjs";
 import {openModal, closeModal} from "./services/modal.mjs";
-import {getSavedSearches, saveSearches} from "./services/storage.mjs";
+import {
+    deleteSavedSearch,
+    getBookmarks,
+    getSavedSearches,
+    saveBookmarks,
+    saveSearches,
+    toggleBookmark
+} from "./services/storage.mjs";
 
 
 const searchForm = document.getElementById('searchForm');
 const queryInput = document.getElementById('query');
 
 const savedSearchesList = document.getElementById('savedSearchesList');
+const bookmarksList = document.getElementById('bookmarksList');
 
 const articlesContainer = document.getElementById('articlesContainer');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
 
 const saveSearchBtn = document.getElementById('saveSearchBtn');
-
-renderSavedSearches(savedSearchesList, getSavedSearches());
 
 searchForm.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -39,23 +45,40 @@ searchForm.addEventListener('submit', async (event) => {
     articlesContainer.innerHTML = '';
 
     for (const article of articles) {
-        console.log(article);
         renderArticles(article);
     }
 });
 
 articlesContainer.addEventListener('click', (event) => {
     const detailsBtn = event.target.closest('.details-btn');
+    const bookmarkBtn = event.target.closest('.bookmark-btn');
 
-    if (!detailsBtn) return; // avoid error if the user clicks on the non-details button
+    if (detailsBtn) {
+        const articleId = detailsBtn.dataset.id;
+        const article = state.articles.find(item => item.id === articleId);
 
-    const articleId = detailsBtn.dataset.id;
+        if (!article) return;
 
-    const article = state.articles.find(item => item.id === articleId);
+        openModal(article);
+    }
 
-    if (!article) return;
+    if (bookmarkBtn) {
+        const articleId = bookmarkBtn.dataset.id;
+        const article = state.articles.find(item => item.id === articleId);
 
-    openModal(article);
+        if (!article) return;
+
+        toggleBookmark(article);
+
+        const container = document.getElementById('articlesContainer');
+        container.innerHTML = '';
+
+        for (const item of state.articles) {
+            renderArticles(item);
+        }
+
+        refreshBookmarks();
+    }
 })
 
 modalCloseBtn.addEventListener('click', closeModal);
@@ -97,22 +120,33 @@ saveSearchBtn.addEventListener('click', () => {
     renderSavedSearches(savedSearchesList, savedSearches);
 })
 
-savedSearchesList.addEventListener('click', (event) => {
+savedSearchesList.addEventListener('click', async (event) => {
     const savedSearchBtn = event.target.closest('.saved-search-btn');
 
     if (!savedSearchBtn) return;
 
     const savedSearchId = savedSearchBtn.dataset.index;
     const savedSearches = JSON.parse(localStorage.getItem('saved_searches'));
-    const oneSavedSearch = savedSearches[savedSearchId];
+    const requestedSearch = savedSearches[savedSearchId];
 
-    const query = oneSavedSearch.query ? oneSavedSearch.query : 'All news';
-    const section = oneSavedSearch.section;
-    const fromDate = oneSavedSearch.fromDate;
-    const toDate = oneSavedSearch.toDate;
-    const orderBy = oneSavedSearch.orderBy;
+    const query = requestedSearch.query ? requestedSearch.query : 'All news';
+    const section = requestedSearch.section;
+    const fromDate = requestedSearch.fromDate;
+    const toDate = requestedSearch.toDate;
+    const orderBy = requestedSearch.orderBy;
 
-    
+    const response = await getArticles(query, section, fromDate, toDate, orderBy);
+
+    const articles = response.data.response.results;
+    state.articles = articles;
+
+    articlesContainer.innerHTML = '';
+
+    for (const article of articles) {
+        renderArticles(article);
+    }
+
+    refreshBookmarks();
 })
 
 savedSearchesList.addEventListener('click', (event) => {
@@ -121,10 +155,32 @@ savedSearchesList.addEventListener('click', (event) => {
     if (!deleteSavedSearchBtn) return;
 
     const savedSearchId = deleteSavedSearchBtn.dataset.index;
-    const savedSearches = JSON.parse(localStorage.getItem('saved_searches'));
 
-    savedSearches.splice(savedSearchId, 1);
-    saveSearches(savedSearches);
-    renderSavedSearches(savedSearchesList, savedSearches);
+    deleteSavedSearch(savedSearchesList, savedSearchId);
 })
 
+bookmarksList.addEventListener('click', (event) => {
+    const removeBookmarkBtn = event.target.closest('.remove-bookmark-btn');
+
+    if (!removeBookmarkBtn) return;
+
+    const articleId = removeBookmarkBtn.dataset.id;
+    const bookmarks = getBookmarks().filter(item => item.id !== articleId);
+
+    saveBookmarks(bookmarks);
+    refreshBookmarks();
+
+    const container = document.getElementById('articlesContainer');
+    container.innerHTML = '';
+
+    for (const item of state.articles) {
+        renderArticles(item);
+    }
+})
+
+function refreshBookmarks() {
+    renderBookmarks(getBookmarks());
+}
+
+renderSavedSearches(savedSearchesList, getSavedSearches());
+refreshBookmarks();

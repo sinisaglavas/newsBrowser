@@ -35,11 +35,18 @@ body {
     display: flex;
     gap: 12px;
 }
+
 .search-form .form-row {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
     margin-bottom: 12px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    flex: 1 1 180px;
 }
 
 input,
@@ -49,8 +56,24 @@ button {
     font-size: 14px;
 }
 
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.form-group label {
+    font-size: 12px;
+}
 button {
-    cursor: pointer;
+    border: none;
+    background: #2563eb;
+    color: white;
+    border-radius: 6px;
+}
+
+button:hover {
+    background: #1d4ed8;
 }
 
 .articles-grid {
@@ -60,10 +83,14 @@ button {
 }
 
 .article-card {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: white;
     border-radius: 10px;
     overflow: hidden;
+    transition: 0.2s;
+}
+
+.article-card:hover {
+    transform: translateY(-4px);
 }
 
 .article-image {
@@ -115,10 +142,35 @@ button {
 }
 
 .bookmark-item img {
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 90px;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.bookmark-content h4 {
+    margin: 0 0 8px 0;
+}
+
+.bookmark-content p {
+    margin: 0 0 8px 0;
+}
+
+.bookmark-item .bookmark-content .open-article-btn {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.bookmark-item .bookmark-content .open-article-btn:hover {
+    text-decoration: underline;
+}
+
+.bookmark-btn {
+    background: #f59e0b;
+}
+
+.bookmark-btn:hover {
+    background: #d97706;
 }
 
 .modal {
