@@ -73,3 +73,27 @@ export function renderBookmarks(bookmarks) {
         </div>
     `).join('');
 }
+
+export function showStatus(message, showRetry = false) {
+const statusSection = document.getElementById('statusSection');
+const statusMessage = document.getElementById('statusMessage');
+const retryBtn = document.getElementById('retryBtn');
+
+statusMessage.textContent = '';
+statusMessage.textContent = message;
+statusSection.classList.remove('hidden');
+
+if (showRetry) {
+    retryBtn.classList.remove('hidden');
+} else {
+    retryBtn.classList.add('hidden');
+}
+}
+
+export function hideStatus() {
+    const statusSection = document.getElementById('statusSection');
+    const retryBtn = document.getElementById('retryBtn');
+
+    statusSection.classList.add('hidden');
+    retryBtn.classList.add('hidden');
+}

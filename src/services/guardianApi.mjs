@@ -4,7 +4,7 @@ import axios from 'axios';
 const API_KEY = process.env.API_KEY;
 const API_URL = process.env.API_URL;
 
-export async function getArticles(query, section, fromDate, toDate, orderBy, pageSize) {
+export async function getArticles({query, section, fromDate, toDate, orderBy, pageSize, page}) {
    try {
        const params = {
            'api-key': API_KEY,
@@ -22,10 +22,11 @@ export async function getArticles(query, section, fromDate, toDate, orderBy, pag
                params['order-by'] = orderBy;
            }
        }
-       if (pageSize) params['page-size'] = pageSize;
+       if (pageSize) params['page-size'] = Number(pageSize);
+       if (page) params.page = Number(page);
 
        return await axios.get(API_URL, { params })
-   } catch (exception) {
-       return alert('Something went wrong with fetching search data! Please try again later.')
+   } catch (error) {
+       throw error;
    }
 }

@@ -31,6 +31,7 @@ body {
     padding: 16px;
     margin-bottom: 20px;
 }
+
 .search-panel {
     display: flex;
     gap: 12px;
@@ -216,4 +217,8 @@ button:hover {
 
 .hidden {
     display: none;
+}
+
+#retryBtn {
+    margin-top: 10px;
 }
